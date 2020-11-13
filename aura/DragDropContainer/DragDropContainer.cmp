@@ -1,0 +1,132 @@
+<aura:component controller="kanbanController"  >
+    <!-- resources -->
+    <ltng:require styles="{!$Resource.bulma + '/bulma-0.4.2/css/bulma.css'}" />
+    
+    <!-- attributes -->
+    <aura:attribute name="allItems" type="Object" ></aura:attribute>
+    <aura:attribute name="objName" type="String" required="true"></aura:attribute>
+    <aura:attribute name="objFields" type="List" default="['Id', 'Name']" required="true"></aura:attribute>
+	<aura:attribute name="iconNameforHeader" type="String" required="true"></aura:attribute>
+    
+    <!-- this is the picklist field based on this columns will display and get records -->
+    <aura:attribute name="kanbanPicklistField" type="String" default='' required="true"></aura:attribute>
+    <aura:attribute name="pipelineColumnWithCount" type="List"  ></aura:attribute>
+    
+    <!-- this is the attribute if you pass specific pickist values in strings it will show only that, -->
+    <!-- blank will show all picklist values on that object for selected picklist field. -->
+    <aura:attribute name="pipelineColumns" type="List"  default="[]"  ></aura:attribute>
+    <!-- this will be used for showing loading images on server calls. -->
+    <aura:attribute name="spinner" type="boolean" default="FALSE"/>
+    <!--aura handler for waiting and donewaiting events-->
+    <aura:handler event="aura:waiting" action="{!c.showSpinner}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}"/>
+    <aura:attribute name="totalCount" type="String" ></aura:attribute>
+    
+    
+    <!-- event handlers -->
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"></aura:handler>
+    <!-- Conmponent Evenet handler -->
+    <aura:handler name="pipelineChange" event="c:pipelineChange" action="{!c.onPipelineChanged}"></aura:handler>
+    <!-- referesh view handler -->
+    <aura:handler event="force:refreshView" action="{! c.doInit } " />
+    
+    <!-- header start-->
+    <article class="slds-card">
+        <div class="slds-page-header">
+            <div class="slds-page-header__row">
+                <div class="slds-page-header__col-title">
+                    <div class="slds-media">
+                        <div class="slds-media__figure">
+                            <span class="slds-icon_container slds-icon-standard-opportunity">
+                                
+                            </span>
+                        </div>
+                        <div class="slds-media__body">
+                            <div class="slds-page-header__name">
+                                <div class="slds-page-header__name-title">
+                                    <h1>
+										<lightning:icon iconName="{!v.iconNameforHeader}"  title="New" />
+                                        <span style="margin-left:15px;">{!v.objName}</span>
+                                    </h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-page-header__col-actions">
+                    <div class="slds-page-header__controls">
+                        <div class="slds-page-header__control">
+                            <ul class="slds-button-group-list">
+                                <li>
+                                    <button class="slds-button slds-button_neutral" onclick="{!c.openmodal}">New</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-page-header__row">
+                <div class="slds-page-header__col-meta">
+                    <p class="slds-page-header__meta-text" style="margin-top:10px;margin-left:80px;">{!v.totalCount} items </p>
+                </div>
+            </div>
+        </div>
+    </article>
+    <!-- header end --> 
+    
+    <!-- add new Button start -->
+    <div role="dialog" tabindex="-1" aria-labelledby="header43" aura:id="Modalbox" class="slds-modal">
+        <div class="slds-modal__container">
+            <div class="slds-modal__header">
+                <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close" onclick="{!c.closeModal}">
+                    <!--c:svgIcon svgPath="/resource/slds/assets/icons/utility-sprite/svg/symbols.svg#close"  size="small"  /-->
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <h2 id="header43" class="slds-text-heading--medium">New {!v.objName} Code</h2>
+            </div>
+            <div class="slds-modal__content slds-p-around--medium">
+                <div>
+                    <lightning:notificationsLibrary aura:id="notifLib" />
+                    <lightning:recordForm
+                                          objectApiName="{!v.objName}"
+                                          fields="{!v.objFields}"
+                                          onerror="{!c.handleError}"/>
+                    
+                </div>
+            </div>
+            <div class="slds-modal__footer">
+                <lightning:button variant="brand" label="Close" title="Close" onclick="{! c.closeModal }" />
+            </div>
+        </div>
+    </div>
+    <div class="slds-backdrop " aura:id="Modalbackdrop"></div>
+    <!-- Add new button end -->
+    
+    <!-- Displays toast notifications -->
+    
+    
+    
+    <!-- main content Start -->
+    <ui:scrollerWrapper class="outerScroller">
+        <!-- Scrollable content here -->
+        <div class="columns  scroller-content" >
+            <aura:iteration items="{!v.pipelineColumnWithCount}" var="column">
+                <c:pipeline title="{!column.columnName}" rowCount="{!column.count}" items="{!v.allItems}" kanbanPicklistField="{!v.kanbanPicklistField}"></c:pipeline>
+            </aura:iteration>
+        </div>
+        <!-- Scrollable content here -->
+    </ui:scrollerWrapper>
+    <!-- main content End -->
+    
+    <!--loading spinner start-->
+    <aura:if isTrue="{!v.spinner}">
+        <div aura:id="spinnerId" class="slds-spinner_container">
+            <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+                <span class="slds-assistive-text">Loading...</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </aura:if>
+    <!-- Loading spinner end--> 
+</aura:component>

@@ -1,0 +1,4 @@
+<aura:event type="COMPONENT" description="Event fired whenever an item is dropped on a pipeline">
+	<aura:attribute type="String" name="title"></aura:attribute>
+    <aura:attribute type="Object" name="item"></aura:attribute>
+</aura:event>

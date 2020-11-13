@@ -1,0 +1,3 @@
+<aura:component  implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global" >
+	<c:DragDropContainer iconNameforHeader="action:new_opportunity" objName="Account" objFields="['Name','Id','SLA__c']" kanbanPicklistField="SLA__c" />
+</aura:component>

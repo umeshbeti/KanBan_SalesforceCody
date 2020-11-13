@@ -1,0 +1,27 @@
+<aura:component >
+    <!-- Attributes -->
+	<aura:attribute name="title" type="String" required="true"></aura:attribute>
+    <aura:attribute name="items" type="Object[]" required="true"></aura:attribute>
+    <aura:attribute name="rowCount" type="String" ></aura:attribute>
+	<aura:attribute name="kanbanPicklistField" type="String" required="true" ></aura:attribute>
+
+	<aura:handler name="init" action="{!c.doInit}" value="{!this}"></aura:handler>
+
+    <!-- Registering Custom Events -->
+    <aura:registerEvent name="pipelineChange" type="c:pipelineChange"/>
+    
+    <div class="column" ondrop="{!c.onDrop}" ondragover="{!c.allowDrop}">
+        <div class="panel">
+            <div class="panel-heading">
+                <b>{! v.title } ({! v.rowCount})</b>
+            </div>
+            <div class="panel-block column">
+                <aura:iteration items="{!v.items}" var="item">
+                    <aura:if isTrue="{!item.SLA__c == v.title}">
+                    	<c:Card item="{!item}" ></c:Card>
+                    </aura:if>    
+                </aura:iteration>
+            </div>
+        </div>
+    </div>
+</aura:component>

@@ -1,0 +1,14 @@
+<aura:component >
+    <aura:attribute name="item" type="Object" required="true"></aura:attribute>
+    <ltng:require styles="{!$Resource.bulma + '/bulma-0.4.2/css/bulma.css'}" />
+    <div class="card draggable" draggable="true" ondragstart="{!c.onDragStart}" style="padding:5px;">
+        <lightning:card iconName="action:new_opportunity" title="{!v.item.Name}">
+            <p class="slds-p-horizontal_small">
+				Account: {!v.item.Name}
+            </p>
+            <p class="slds-p-horizontal_small">
+                SLA: ${!v.item.SLA__c}
+            </p>
+        </lightning:card>
+    </div>
+</aura:component>

@@ -1,0 +1,8 @@
+.THIS.outerScroller {
+    /* fix innerScroller not scrollable */
+    border-radius: 1px;
+}
+.THIS.slds-spinner_container {  
+  z-index: 10000;
+  position: fixed;   
+}

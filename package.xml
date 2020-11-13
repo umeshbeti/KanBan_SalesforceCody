@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Kanban_SalesforceCody</fullName>
+    <types>
+        <members>kanbanController</members>
+        <members>kanbanControllerTestClass</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>Card</members>
+        <members>DragDropContainer</members>
+        <members>KanbanComponnentWrapper</members>
+        <members>pipeline</members>
+        <members>pipelineChange</members>
+        <name>AuraDefinitionBundle</name>
+    </types>
+    <types>
+        <members>bulma</members>
+        <name>StaticResource</name>
+    </types>
+    <version>49.0</version>
+</Package>
