@@ -1,6 +1,5 @@
 public class kanbanController {
     public kanbanController(){}
-    
     @AuraEnabled
     public static List<SObject>  getdata(String objectName, List<String> objectFields){
         integer rowIndex =0;
